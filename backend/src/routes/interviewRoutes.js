@@ -6,7 +6,8 @@ const {
   startInterview,
   logEvent,
   endInterview,
-  getInterview
+  getInterview,
+  getAllSessions
 } = require("../controllers/interviewController");
 
 const { protect } = require("../middlewares/authMiddleware");
@@ -50,7 +51,17 @@ router.post(
 );
 
 /* =========================
-   GET INTERVIEW DETAILS
+   GET ALL SESSIONS (🔥 IMPORTANT)
+========================= */
+router.get(
+  "/",
+  protect,
+  authorizeRoles("interviewer"),
+  getAllSessions
+);
+
+/* =========================
+   GET SINGLE SESSION
 ========================= */
 router.get(
   "/:sessionId",

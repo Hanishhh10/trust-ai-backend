@@ -24,7 +24,7 @@ const interviewSessionSchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ["created", "started", "ended"],
+    enum: ["created", "ongoing", "completed"],  // ✅ fixed
     default: "created"
   },
 
@@ -39,7 +39,7 @@ const interviewSessionSchema = new mongoose.Schema({
         type: String
       },
       timestamp: Date,
-      details: Object
+      details: String  // ✅ changed from Object to String so details saves properly
     }
   ]
 

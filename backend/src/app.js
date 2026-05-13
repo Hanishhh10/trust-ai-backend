@@ -1,20 +1,30 @@
 const express = require("express");
-const examRoutes = require("./routes/examRoutes");
+const cors = require("cors");
+
 const app = express();
 
-// middleware
+// Middleware
+app.use(cors({
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 app.use(express.json());
 
-// health check route
-app.get("/health", (req, res) => {
-  res.json({ status: "TRUST AI backend running" });
+// Health check
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", message: "TRUST AI backend running" });
 });
 
-// auth routes
-app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/api/test", require("./routes/testRoutes"));
-app.use("/api/exam", examRoutes);
-app.use("/api/interview", require("./routes/interviewRoutes"));
+// Routes
+const authRoutes      = require("./routes/authRoutes");
+const testRoutes      = require("./routes/testRoutes");
+const interviewRoutes = require("./routes/interviewRoutes");
+const examRoutes      = require("./routes/examRoutes");
+
+app.use("/api/auth",      authRoutes);
+app.use("/api/test",      testRoutes);
+app.use("/api/interview", interviewRoutes);
+app.use("/api/exam",      examRoutes);
 
 module.exports = app;
-
